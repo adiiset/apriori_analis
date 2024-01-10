@@ -1,19 +1,26 @@
 # Import library
 import streamlit as st
 import pandas as pd
+import database
 from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import association_rules
-from mlxtend.preprocessing import TransactionEncoder
 
 def read_data():
-    st.subheader("Upload Dataset")
-    uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+    dataset = database.results
+    table = pd.DataFrame(dataset)
+    st.write('Dataset Penjualan :')
+    st.write(table)
+    periode = table
 
-    if uploaded_file is not None:
-        data = pd.read_csv(uploaded_file)
-        st.dataframe(data.head())
-        return data
 
+    # st.subheader("Upload Dataset")
+    # uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+
+    # if uploaded_file is not None:
+    #     data = pd.read_csv(uploaded_file)
+    #     st.dataframe(data.head())
+    #     return data
+    
 def apply_apriori(data, min_support):
 
     frequent_itemsets = apriori(data, min_support=min_support, use_colnames=True)
@@ -25,9 +32,10 @@ def apply_apriori(data, min_support):
     st.subheader("Association Rules")
     st.dataframe(rules)
 
+
 # Main function
 def main():
-    st.title("Apriori Implementation with Streamlit")
+    st.title("Sistem Asosiasi Pola Pembelian")
     data = read_data()
 
     if data is not None:
